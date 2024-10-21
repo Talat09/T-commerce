@@ -6,11 +6,14 @@ import "slick-carousel/slick/slick-theme.css"; // Import slick theme styles here
 import "./index.css";
 import { Provider } from "react-redux";
 import store from "./redux/store.ts";
-
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+const theme = createTheme();
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </ThemeProvider>
   </StrictMode>
 );

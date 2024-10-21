@@ -3,8 +3,6 @@ import { Grid, Typography, Box, Container, Button } from "@mui/material";
 import { styled } from "@mui/system";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-
-// Create a theme with defined shadows
 const theme = createTheme({
   shadows: [
     "none",
@@ -16,21 +14,36 @@ const theme = createTheme({
     "0px 6px 12px rgba(0, 0, 0, 0.2)",
     "0px 7px 14px rgba(0, 0, 0, 0.2)",
     "0px 8px 16px rgba(0, 0, 0, 0.2)",
-    // Add more shadows as needed
+    // Add 16 more empty string elements to reach 25
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
   ],
 });
-
 // Styled component for category box
 const CategoryBox = styled(Box)(({ theme }) => ({
   position: "relative",
   overflow: "hidden",
   borderRadius: theme.shape.borderRadius,
-  boxShadow: theme.shadows?.[4] || "none",
+  boxShadow: (theme.shadows as string)?.[4] || "none",
   transition: "transform 0.3s ease",
   "&:hover": {
     transform: "scale(1.05)",
 
-    boxShadow: theme.shadows?.[8] || "none",
+    boxShadow: (theme.shadows as string)?.[8] || "none",
   },
 }));
 

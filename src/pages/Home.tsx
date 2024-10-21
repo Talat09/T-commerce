@@ -1,4 +1,4 @@
-import React from "react";
+
 import Carousel from "../components/carousel/Carousel";
 import FeatureProduct from "../components/FeatureProduct/FeatureProduct";
 import HotDeals from "../components/HotDeals/HotDeals";

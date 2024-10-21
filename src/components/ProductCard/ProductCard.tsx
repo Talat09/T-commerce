@@ -11,11 +11,11 @@ const CategoryBox = styled(Box)(({ theme }) => ({
   position: "relative",
   overflow: "hidden",
   borderRadius: theme.shape.borderRadius,
-  boxShadow: theme.shadows?.[4] || "none",
+  boxShadow: (theme.shadows as string)?.[4] || "none",
   transition: "transform 0.3s ease",
   "&:hover": {
     transform: "scale(1.05)",
-    boxShadow: theme.shadows?.[8] || "none",
+    boxShadow: (theme.shadows as string)?.[8] || "none",
   },
 }));
 
