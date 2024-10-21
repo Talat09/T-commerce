@@ -1,0 +1,73 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "Electronics",
+      "image": "../src/assets/products/smartphones.jpg",
+      "products": [
+        {
+          "id": 101,
+          "name": "Smartphone",
+          "description": "Latest model smartphone with high performance.",
+          "price": 699.99,
+          "image": "./src/assets/products/smartphones.jpg",
+          "categoryId": 1
+        },
+        {
+          "id": 102,
+          "name": "Laptop",
+          "description": "Lightweight laptop with great battery life.",
+          "price": 999.99,
+          "image": "./src/assets/products/laptop.jpg",
+          "categoryId": 1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Clothing",
+      "image": "./src/assets/products/jeans.jpg",
+      "products": [
+        {
+          "id": 201,
+          "name": "T-shirt",
+          "description": "Comfortable cotton t-shirt.",
+          "price": 19.99,
+          "image": "./src/assets/products/t-shirt.jpg",
+          "categoryId": 2
+        },
+        {
+          "id": 202,
+          "name": "Jeans",
+          "description": "Stylish blue jeans.",
+          "price": 49.99,
+          "image": "./src/assets/products/jeans.jpg",
+          "categoryId": 2
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Home Appliances",
+      "image": "./src/assets/products/cleaner.jpg",
+      "products": [
+        {
+          "id": 301,
+          "name": "Vacuum Cleaner",
+          "description": "Powerful vacuum cleaner for home use.",
+          "price": 159.99,
+          "image": "./src/assets/products/cleaner.jpg",
+          "categoryId": 3
+        },
+        {
+          "id": 302,
+          "name": "Air Conditioner",
+          "description": "Energy-efficient air conditioner.",
+          "price": 499.99,
+          "image": "./src/assets/products/air-conditioner.jpg",
+          "categoryId": 3
+        }
+      ]
+    }
+  ]
+}
