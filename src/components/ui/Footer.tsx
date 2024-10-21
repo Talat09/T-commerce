@@ -1,4 +1,5 @@
 import { Typography, Grid, Container } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -6,8 +7,18 @@ const Footer = () => {
       <Container maxWidth="lg">
         <Grid container spacing={4}>
           <Grid item xs={12} sm={6} md={3}>
-            <Typography variant="h6" gutterBottom>
-              About Us
+            <Typography
+              variant="h6"
+              component={Link} // Make the logo a link
+              to="/" // Link to home page
+              sx={{
+               fontSize: "1.5rem",
+                fontWeight: 600,
+                textDecoration: "none",
+                color: "inherit",
+              }} // Ensure it inherits color and remove underline
+            >
+              <span style={{ color: "red" }}>T </span>- Commerce
             </Typography>
             <Typography variant="body2">
               E-Shop is your one-stop destination for all your shopping needs.
