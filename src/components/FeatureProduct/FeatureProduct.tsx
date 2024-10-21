@@ -91,7 +91,7 @@ const FeatureProduct: React.FC = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
-  const handleCateryClick = () => {
+  const handleCategoryClick = () => {
     navigate("/all-products");
   };
   return (
@@ -138,7 +138,7 @@ const FeatureProduct: React.FC = () => {
                       <Button
                         variant="contained"
                         color="primary"
-                        onClick={handleCateryClick}
+                        onClick={handleCategoryClick}
                         sx={{
                           textAlign: "right",
                           bgcolor: "red",

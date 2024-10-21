@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import { Grid, Typography, Box, Container, Button } from "@mui/material";
 import { styled } from "@mui/system";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { IProduct } from "../types/globalTypes";
+import toast from "react-hot-toast";
+import { useAppDispatch } from "../redux/hook/hook";
+import { addToCart } from "../redux/features/cart/cartSlice";
 // Create a theme with defined shadows
 const theme = createTheme({
   shadows: [
@@ -56,7 +60,7 @@ const AllProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-
+const dispatch = useAppDispatch();
   const fetchProducts = async () => {
     setLoading(true);
     try {
@@ -93,7 +97,11 @@ const AllProducts = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
-
+  const handleAddToCart = (product: IProduct) => {
+    console.log("product:", product);
+    dispatch(addToCart(product));
+    toast.success("Product Added.");
+  };
   return (
     <ThemeProvider theme={theme}>
       {" "}
@@ -107,12 +115,12 @@ const AllProducts = () => {
             <Typography variant="body1">No categories available</Typography>
           ) : (
             <Grid container spacing={2}>
-              {products.map((category) => (
-                <Grid item xs={12} sm={6} md={4} key={category.id}>
+              {products.map((product) => (
+                <Grid item xs={12} sm={6} md={4} key={product.id}>
                   <CategoryBox>
                     <img
-                      src={category.image}
-                      alt={category.name}
+                      src={product.image}
+                      alt={product.name}
                       style={{
                         width: "100%",
                         height: "300px",
@@ -134,9 +142,10 @@ const AllProducts = () => {
                     >
                       <Box>
                         <Typography variant="h6" gutterBottom color="white">
-                          {category.name}
+                          {product.name}
                         </Typography>
                         <Button
+                          onClick={() => handleAddToCart(product)}
                           sx={{
                             width: "100%",
                             textAlign: "right",
@@ -150,7 +159,7 @@ const AllProducts = () => {
                       </Box>
 
                       <Typography variant="h6" gutterBottom color="white">
-                        ${category.price}
+                        ${product.price}
                       </Typography>
                     </Box>
                   </CategoryBox>

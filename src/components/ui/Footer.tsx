@@ -1,4 +1,4 @@
-import { Typography, Grid, Container } from "@mui/material";
+import { Typography, Grid, Container, Box } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -12,7 +12,7 @@ const Footer = () => {
               component={Link} // Make the logo a link
               to="/" // Link to home page
               sx={{
-               fontSize: "1.5rem",
+                fontSize: "1.5rem",
                 fontWeight: 600,
                 textDecoration: "none",
                 color: "inherit",
@@ -30,27 +30,27 @@ const Footer = () => {
             <Typography variant="h6" gutterBottom>
               Customer Service
             </Typography>
-            <Typography variant="body2">
+            <Box>
               <ul style={{ listStyle: "none", padding: "0" }}>
                 <li>Contact Us</li>
                 <li>Shipping Information</li>
                 <li>Returns & Exchanges</li>
                 <li>FAQ</li>
               </ul>
-            </Typography>
+            </Box>
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <Typography variant="h6" gutterBottom>
               Quick Links
             </Typography>
-            <Typography variant="body2">
+            <Box>
               <ul style={{ listStyle: "none", padding: "0" }}>
                 <li>Home</li>
                 <li>Products</li>
                 <li>About</li>
                 <li>Contact</li>
               </ul>
-            </Typography>
+            </Box>
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <Typography variant="h6" gutterBottom>
