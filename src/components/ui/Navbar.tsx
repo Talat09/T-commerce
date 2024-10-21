@@ -5,13 +5,12 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import Badge from "@mui/material/Badge";
 
 import {
   Box,
-
   Container,
   Drawer,
-
   List,
   ListItem,
   ListItemText,
@@ -22,20 +21,21 @@ import { KeyboardEvent } from "react";
 import { Link } from "react-router-dom";
 
 import Cart from "../Cart/Cart";
+import { useAppSelector } from "../../redux/hook/hook";
 
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [cartOpen, setCartOpen] = useState(false); // State to manage cart drawer visibility
-
+  const [cartOpen, setCartOpen] = useState(false);
+  const { products } = useAppSelector((state) => state.cart);
+ // Calculate the total quantity of products in the cart
+ const totalQuantity = products.reduce((acc, product) => acc + product.quantity!, 0);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  // Function to toggle the drawer for mouse events
   const toggleDrawerMouse = (open: boolean) => {
     setDrawerOpen(open);
   };
 
-  // Function to toggle the drawer for keyboard events
   const toggleDrawerKeyboard = (open: boolean) => (event: KeyboardEvent) => {
     if (
       event.type === "keydown" &&
@@ -46,12 +46,10 @@ const Navbar = () => {
     setDrawerOpen(open);
   };
 
-  // Function to toggle cart drawer
   const toggleCartDrawer = (open: boolean) => {
     setCartOpen(open);
   };
 
-  // Menu items for mobile
   const menuItems = (
     <Box
       sx={{ width: 250 }}
@@ -69,13 +67,11 @@ const Navbar = () => {
     </Box>
   );
 
- 
-
   return (
     <Box
       sx={{
-        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)", // Added box shadow
-        backgroundColor: "white", // Ensures background for shadow visibility
+        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+        backgroundColor: "white",
         position: "sticky",
         top: 0,
         zIndex: 1000,
@@ -84,22 +80,20 @@ const Navbar = () => {
       <Container>
         <Box position="static">
           <Toolbar>
-            {/* Left: Logo */}
             <Typography
               variant="h6"
-              component={Link} // Make the logo a link
-              to="/" // Link to home page
+              component={Link}
+              to="/"
               sx={{
                 flexGrow: 1,
                 fontWeight: 600,
                 textDecoration: "none",
                 color: "inherit",
-              }} // Ensure it inherits color and remove underline
+              }}
             >
               <span style={{ color: "red" }}>T </span>- Commerce
             </Typography>
 
-            {/* Center: Links (Hide on mobile) */}
             {!isMobile && (
               <Box sx={{ display: "flex", gap: 2 }}>
                 <Button component={Link} to="/service" color="inherit">
@@ -108,21 +102,21 @@ const Navbar = () => {
                 <Button component={Link} to="/all-products" color="inherit">
                   All Products
                 </Button>
-                <Button
+                <IconButton
                   color="inherit"
-                  onClick={() => toggleCartDrawer(true)} // Open cart drawer on click
+                  onClick={() => toggleCartDrawer(true)}
                 >
-                  <AddShoppingCartIcon />
-                </Button>
+                  <Badge badgeContent={totalQuantity} color="error">
+                    <AddShoppingCartIcon />
+                  </Badge>
+                </IconButton>
               </Box>
             )}
 
-            {/* Right: Login Button with Link */}
             <Button component={Link} to="/login" color="inherit">
               Login
             </Button>
 
-            {/* Mobile Menu Icon and Drawer */}
             {isMobile && (
               <>
                 <IconButton
@@ -133,7 +127,6 @@ const Navbar = () => {
                   <MenuIcon />
                 </IconButton>
 
-                {/* Drawer for mobile navigation */}
                 <Drawer
                   anchor="right"
                   open={drawerOpen}
@@ -147,21 +140,22 @@ const Navbar = () => {
                       justifyContent: "left",
                       p: 2,
                     }}
-                    onClick={() => toggleCartDrawer(true)} // Open cart drawer on click
+                    onClick={() => toggleCartDrawer(true)}
                   >
-                    <AddShoppingCartIcon />
+                    <Badge badgeContent={totalQuantity} color="error">
+                      <AddShoppingCartIcon />
+                    </Badge>
                   </Button>
                 </Drawer>
               </>
             )}
 
-             {/* Cart Drawer */}
-             <Drawer
+            <Drawer
               anchor="right"
               open={cartOpen}
               onClose={() => toggleCartDrawer(false)}
             >
-              <Cart  toggleCartDrawer={toggleCartDrawer} />
+              <Cart toggleCartDrawer={toggleCartDrawer} />
             </Drawer>
           </Toolbar>
         </Box>

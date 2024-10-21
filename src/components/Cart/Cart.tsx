@@ -14,7 +14,12 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useAppSelector } from "../../redux/hook/hook";
+import { useAppDispatch, useAppSelector } from "../../redux/hook/hook";
+import {
+  addToCart,
+  removeFromCart,
+  removeOneFromCart,
+} from "../../redux/features/cart/cartSlice";
 
 interface CartProps {
   toggleCartDrawer: (open: boolean) => void;
@@ -22,6 +27,11 @@ interface CartProps {
 
 const Cart: React.FC<CartProps> = ({ toggleCartDrawer }) => {
   const { products } = useAppSelector((state) => state.cart);
+  const dispatch = useAppDispatch();
+  // Calculate the total price of products in the cart
+  const totalPrice = products
+    .reduce((acc, product) => acc + product.price! * product.quantity!, 0)
+    .toFixed(2);
   return (
     <Box
       sx={{
@@ -32,7 +42,7 @@ const Cart: React.FC<CartProps> = ({ toggleCartDrawer }) => {
         },
       }}
       role="presentation"
-      onClick={() => toggleCartDrawer(false)}
+      onClick={() => toggleCartDrawer(true)}
       onKeyDown={() => toggleCartDrawer(false)}
     >
       <Typography variant="h6" sx={{ padding: 2 }}>
@@ -40,7 +50,7 @@ const Cart: React.FC<CartProps> = ({ toggleCartDrawer }) => {
       </Typography>
 
       <Typography variant="h6" sx={{ padding: 2 }}>
-        TOTAL: $1000
+        TOTAL: ${totalPrice}
       </Typography>
 
       <Grid container>
@@ -72,27 +82,41 @@ const Cart: React.FC<CartProps> = ({ toggleCartDrawer }) => {
               <CardContent sx={{ padding: "0 16px" }}>
                 <Typography variant="body1">{item.name}</Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Price: ${item.price}
+                  Quantity: {item.quantity!}
                 </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Price: ${(item.price * item.quantity!).toFixed(2)}
+                </Typography>
+
                 <Box sx={{ display: "flex", gap: 1, py: 1 }}>
                   <IconButton
+                    onClick={() => dispatch(removeOneFromCart(item))}
                     sx={{
                       bgcolor: "red",
                       color: "white",
                       width: "24px",
                       height: "24px",
+                      ":hover": {
+                        bgcolor: "red",
+                        color: "white",
+                      },
                     }}
                     aria-label="decrease quantity"
                   >
                     <RemoveIcon />
                   </IconButton>
-                  <Typography variant="body1">1</Typography>
+                  <Typography variant="body1">{item.quantity!}</Typography>
                   <IconButton
+                    onClick={() => dispatch(addToCart(item))}
                     sx={{
-                      bgcolor: "red",
+                      bgcolor: "black",
                       color: "white",
                       width: "24px",
                       height: "24px",
+                      ":hover": {
+                        bgcolor: "black",
+                        color: "white",
+                      },
                     }}
                     aria-label="increase quantity"
                   >
@@ -111,11 +135,16 @@ const Cart: React.FC<CartProps> = ({ toggleCartDrawer }) => {
                 }}
               >
                 <IconButton
+                  onClick={() => dispatch(removeFromCart(item))}
                   sx={{
                     bgcolor: "red",
                     color: "white",
                     width: "24px",
                     height: "24px",
+                    ":hover": {
+                      bgcolor: "red",
+                      color: "white",
+                    },
                   }}
                   aria-label="remove item"
                 >
