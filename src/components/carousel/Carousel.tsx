@@ -1,32 +1,23 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Slider from "react-slick";
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Button,
-  Box,
-} from "@mui/material";
+import { Card, CardContent, CardMedia, Button, Box } from "@mui/material";
 import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 import { MouseEventHandler } from "react";
-import image1 from "../../assets/1.jpg";
-import image2 from "../../assets/2.jpg";
-import image3 from "../../assets/3.jpg";
+import image1 from "../../assets/4.png";
+import image2 from "../../assets/5.png";
+import image3 from "../../assets/6.png";
+
 // Carousel items array
 const carouselItems = [
   {
-    title: "Welcome to Our Website",
     description: "This is the first item description",
     imageUrl: image1,
   },
   {
-    title: "Welcome to Our Website",
     description: "This is the second item description",
     imageUrl: image2,
   },
   {
-    title: "Welcome to Our Website",
     description: "This is the third item description",
     imageUrl: image3,
   },
@@ -35,7 +26,7 @@ const carouselItems = [
 // Next Arrow Component
 const NextArrow: React.FC<{
   onClick?: MouseEventHandler<HTMLButtonElement>;
-}> = ({ onClick }) => (
+}> = React.memo(({ onClick }) => (
   <Button
     onClick={onClick}
     sx={{
@@ -48,12 +39,12 @@ const NextArrow: React.FC<{
   >
     <ArrowForwardIos />
   </Button>
-);
+));
 
 // Prev Arrow Component
 const PrevArrow: React.FC<{
   onClick?: MouseEventHandler<HTMLButtonElement>;
-}> = ({ onClick }) => (
+}> = React.memo(({ onClick }) => (
   <Button
     onClick={onClick}
     sx={{
@@ -66,23 +57,34 @@ const PrevArrow: React.FC<{
   >
     <ArrowBackIos />
   </Button>
-);
+));
 
-const Carousel = () => {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-    autoplay: true,
-    autoplaySpeed: 3000,
-  };
+// Memoize the entire Carousel to prevent unnecessary re-renders
+const Carousel: React.FC = React.memo(() => {
+  const settings = useMemo(
+    () => ({
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      nextArrow: <NextArrow />,
+      prevArrow: <PrevArrow />,
+      autoplay: true,
+      autoplaySpeed: 3000,
+    }),
+    []
+  );
 
   return (
-    <Box sx={{ maxWidth: "80%", margin: "0 auto", py: { md: 4, xs: 2 } }}>
+    <Box
+      sx={{
+        maxWidth: "100%",
+        maxHeight: "100%",
+        margin: "auto",
+        py: { md: 4, xs: 2 },
+      }}
+    >
       <Slider {...settings}>
         {carouselItems.map((item, index) => (
           <Card
@@ -100,42 +102,44 @@ const Carousel = () => {
           >
             <CardMedia
               component="img"
+              loading="lazy"
+              srcSet={`${item.imageUrl}?w=480 480w, ${item.imageUrl}?w=800 800w`}
+              sizes="(max-width: 600px) 480px, 800px"
               image={item.imageUrl}
-              alt={item.title}
+              alt={item.description}
               sx={{
                 width: "100%",
                 height: "100%",
-                objectFit: "cover", // Makes sure the image fully covers the area
-                position: "absolute", // Ensures it spans the entire card area
+                objectFit: "cover",
+                position: "absolute",
                 top: 0,
                 left: 0,
                 zIndex: 1,
               }}
             />
+
             <CardContent
               sx={{
-                position: "relative", // Keeps the content above the image
+                position: "relative",
                 zIndex: 1,
-                top: 100,
+                top: 200,
+                left: 50,
                 width: "100%",
-                backgroundColor: "rgba(0, 0, 0, 0.2)", // Semi-transparent background
                 color: "white",
               }}
             >
-              <Typography variant="h5" sx={{ fontSize: "48px" }}>
-                {item.title}
-              </Typography>
-              <Typography
-                variant="body2"
-                color="textSecondary"
-                sx={{ fontSize: "24px" }}
-              >
-                {item.description}
-              </Typography>
               <Button
                 variant="contained"
                 color="primary"
-                sx={{ mt: 2, bgcolor: "white", color: "red",borderRadius:"20px" ,fontWeight:"bold" }}
+                sx={{
+                  mt: 2,
+                  px: 6,
+                  py: 1,
+                  bgcolor: "white",
+                  color: "red",
+                  borderRadius: "20px",
+                  fontWeight: "bold",
+                }}
               >
                 Shop Now
               </Button>
@@ -145,6 +149,6 @@ const Carousel = () => {
       </Slider>
     </Box>
   );
-};
+});
 
 export default Carousel;
